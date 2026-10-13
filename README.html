@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MLQuity — AFML Build Plan</title>
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --text: #1d1d1f;
+    --muted: #6b6b70;
+    --border: #e3e3df;
+    --accent: #2f5d8c;
+    --accent-soft: #e6eef7;
+    --code-bg: #f1f1ee;
+    --row-alt: #fafaf8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151719;
+      --surface: #1d2023;
+      --text: #e6e6e3;
+      --muted: #9a9ca0;
+      --border: #2e3237;
+      --accent: #8ab4e0;
+      --accent-soft: #22303f;
+      --code-bg: #111315;
+      --row-alt: #1a1d20;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #151719;
+    --surface: #1d2023;
+    --text: #e6e6e3;
+    --muted: #9a9ca0;
+    --border: #2e3237;
+    --accent: #8ab4e0;
+    --accent-soft: #22303f;
+    --code-bg: #111315;
+    --row-alt: #1a1d20;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 16px 64px;
+  }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+  }
+  h1 {
+    font-size: 2rem;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .subtitle { color: var(--muted); margin: 0; }
+  h2 {
+    font-size: 1.3rem;
+    margin: 40px 0 12px;
+    color: var(--accent);
+  }
+  p { margin: 0 0 14px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  tbody tr:nth-child(even) td { background: var(--row-alt); }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num {
+    font-weight: 700;
+    color: var(--accent);
+    width: 48px;
+    text-align: center;
+  }
+  code, pre {
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  }
+  code {
+    background: var(--code-bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 14px;
+  }
+  .note {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 12px 16px;
+    border-radius: 0 10px 10px 0;
+    margin: 0 0 16px;
+    color: var(--muted);
+  }
+  ol.notes { padding-left: 20px; }
+  ol.notes li { margin-bottom: 14px; }
+  .tag {
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  @media (max-width: 600px) {
+    h1 { font-size: 1.6rem; }
+    th, td { padding: 8px 10px; font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>MLQuity</h1>
+    <p class="subtitle">A follow-along build of López de Prado's <em>Advances in Financial Machine Learning</em>, applied to US equities on daily bars.</p>
+  </header>
+
+  <div class="note">
+    Read the chapter first, then build the module. Skip the microstructure material (Ch 19 and related).
+  </div>
+
+  <h2>Project layout</h2>
+  <pre><code>MLQuity/
+├── data/
+│   ├── raw/            # raw data, never edited
+│   └── processed/
+├── src/
+│   ├── data.py         # loading, point-in-time handling
+│   ├── features.py     # fracdiff + standard features          (Ch 5)
+│   ├── labeling.py     # CUSUM, triple-barrier, meta-labeling  (Ch 3)
+│   ├── weights.py      # uniqueness, time-decay                (Ch 4)
+│   ├── cv.py           # PurgedKFold, embargo, CPCV            (Ch 7, 12)
+│   ├── importance.py   # MDI, MDA, SFI                         (Ch 8)
+│   ├── sizing.py       # probability -&gt; position size          (Ch 10)
+│   ├── backtest.py     # event-driven daily backtest
+│   └── stats.py        # Sharpe, PSR, DSR, PBO                 (Ch 11, 14)
+├── notebooks/          # one per phase, exploration only
+├── tests/              # unit tests for every src module
+├── trials.csv          # log of EVERY config tried (needed for DSR)
+└── README.md</code></pre>
+
+  <h2>Phases</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Read</th><th>Build</th><th>Done when</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">0</td><td>Ch 1-2 (skim)</td><td>Data loader, repo skeleton, baseline strategies (buy-and-hold, simple momentum), <code>trials.csv</code></td><td>Baseline backtest runs end to end</td></tr>
+        <tr><td class="num">1</td><td>Ch 3</td><td>CUSUM filter, daily volatility, triple-barrier labels, then meta-labeling</td><td>Label counts and class balance look sane; unit tests pass</td></tr>
+        <tr><td class="num">2</td><td>Ch 4</td><td>Concurrency, average uniqueness, sample weights</td><td>Weights verified on a toy example by hand</td></tr>
+        <tr><td class="num">3</td><td>Ch 5</td><td>Fixed-width fracdiff, plus the minimum <code>d</code> that passes ADF</td><td>Features stationary but still correlated with price</td></tr>
+        <tr><td class="num">4</td><td>Ch 7</td><td>PurgedKFold with embargo</td><td>Test shows no label overlap leaking between train and test</td></tr>
+        <tr><td class="num">5</td><td>Ch 6 (skim), Ch 8</td><td>LightGBM baseline, MDI/MDA/SFI</td><td>Importance is stable across folds, not noise</td></tr>
+        <tr><td class="num">6</td><td>Ch 10</td><td>Probability-based sizing, discretization</td><td>Sized strategy compared against fixed-size</td></tr>
+        <tr><td class="num">7</td><td>Ch 11, 12, 14</td><td>CPCV backtest, PSR, DSR, PBO</td><td>A distribution of Sharpe ratios, not one number</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Chapter map</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Ch</th><th>Topic</th><th>Where it lands</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1-2</td><td>Financial ML as a subject; financial data structures (bars)</td><td>Phase 0 (skim)</td></tr>
+        <tr><td>3</td><td>Labeling (CUSUM, triple-barrier, meta-labels)</td><td>Phase 1</td></tr>
+        <tr><td>4</td><td>Sample weights (concurrency, uniqueness, time-decay)</td><td>Phase 2</td></tr>
+        <tr><td>5</td><td>Fractionally differentiated features</td><td>Phase 3</td></tr>
+        <tr><td>6</td><td>Ensemble methods</td><td>Phase 5 (skim)</td></tr>
+        <tr><td>7</td><td>Cross-validation in finance (purging, embargo)</td><td>Phase 4</td></tr>
+        <tr><td>8</td><td>Feature importance (MDI, MDA, SFI)</td><td>Phase 5</td></tr>
+        <tr><td>10</td><td>Bet sizing</td><td>Phase 6</td></tr>
+        <tr><td>11</td><td>The dangers of backtesting</td><td>Phase 7</td></tr>
+        <tr><td>12</td><td>Backtesting through cross-validation (CPCV)</td><td>Phase 7</td></tr>
+        <tr><td>13</td><td>Backtesting on synthetic data</td><td><span class="tag">Skip</span></td></tr>
+        <tr><td>14</td><td>Backtest statistics (PSR, DSR)</td><td>Phase 7</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Notes and open questions</h2>
+  <p>These are points to settle before or during the build, not blockers.</p>
+  <div class="card">
+    <ol class="notes">
+      <li><strong>Start <code>trials.csv</code> in Phase 0.</strong> The Deflated Sharpe Ratio needs the total number of configurations tried. Retroactive logging is unreliable. Log discarded configs too, not only the winner.</li>
+      <li><strong>Daily bars limit sample size.</strong> CUSUM and triple-barrier on daily data produce few events per year, so expect wide confidence intervals from Phase 5 onward. Decide the universe size and history length early, since they drive this more than any model choice.</li>
+      <li><strong>Survivorship bias.</strong> The Phase 0 loader must include delisted tickers and use point-in-time index membership. Without this, backtests will look better than they are, and the error will be invisible in later phases.</li>
+      <li><strong>Verify chapter numbers against your copy.</strong> The chapter map follows the book's standard numbering as recalled. Check it against your table of contents before relying on it, especially the split of DSR and PBO between Ch 11, 12 and 14.</li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
