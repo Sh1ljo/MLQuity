@@ -3,111 +3,153 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MLQuity — AFML Build Plan</title>
+<title>MLQuity — Step-by-Step Guide</title>
 <style>
   :root {
     --bg: #f7f7f5;
     --surface: #ffffff;
     --text: #1d1d1f;
-    --muted: #6b6b70;
+    --muted: #63666b;
     --border: #e3e3df;
     --accent: #2f5d8c;
     --accent-soft: #e6eef7;
-    --code-bg: #f1f1ee;
-    --row-alt: #fafaf8;
+    --code-bg: #f3f3f0;
+    --warn: #8a5a00;
+    --warn-bg: #fff6e0;
+    --ok: #256b3a;
+    --ok-bg: #e7f4ec;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #151719;
-      --surface: #1d2023;
+      --bg: #141618;
+      --surface: #1c1f22;
       --text: #e6e6e3;
       --muted: #9a9ca0;
-      --border: #2e3237;
+      --border: #2d3238;
       --accent: #8ab4e0;
-      --accent-soft: #22303f;
-      --code-bg: #111315;
-      --row-alt: #1a1d20;
+      --accent-soft: #212d3b;
+      --code-bg: #101214;
+      --warn: #f0c060;
+      --warn-bg: #2e2612;
+      --ok: #7fd09a;
+      --ok-bg: #16281d;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #151719;
-    --surface: #1d2023;
+    --bg: #141618;
+    --surface: #1c1f22;
     --text: #e6e6e3;
     --muted: #9a9ca0;
-    --border: #2e3237;
+    --border: #2d3238;
     --accent: #8ab4e0;
-    --accent-soft: #22303f;
-    --code-bg: #111315;
-    --row-alt: #1a1d20;
+    --accent-soft: #212d3b;
+    --code-bg: #101214;
+    --warn: #f0c060;
+    --warn-bg: #2e2612;
+    --ok: #7fd09a;
+    --ok-bg: #16281d;
   }
 
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
     background: var(--bg);
     color: var(--text);
-    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
-  .wrap {
-    max-width: 960px;
+  .layout {
+    max-width: 1080px;
     margin: 0 auto;
-    padding: 40px 16px 64px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 32px;
+    padding: 32px 16px 80px;
   }
+  nav.toc {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    font-size: 0.92rem;
+  }
+  nav.toc h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  nav.toc ol { list-style: none; padding: 0; margin: 0; }
+  nav.toc li { margin-bottom: 4px; }
+  nav.toc a {
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+  nav.toc a:hover { background: var(--accent-soft); color: var(--accent); }
+
+  main { min-width: 0; }
   header {
     border-bottom: 1px solid var(--border);
     padding-bottom: 20px;
     margin-bottom: 28px;
   }
-  h1 {
-    font-size: 2rem;
-    margin: 0 0 6px;
-    letter-spacing: -0.01em;
-  }
+  h1 { font-size: 2.1rem; margin: 0 0 6px; letter-spacing: -0.01em; }
   .subtitle { color: var(--muted); margin: 0; }
   h2 {
-    font-size: 1.3rem;
-    margin: 40px 0 12px;
+    font-size: 1.5rem;
+    margin: 48px 0 6px;
     color: var(--accent);
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
   }
+  h3 { font-size: 1.1rem; margin: 22px 0 8px; }
+  h4 { font-size: 1rem; margin: 18px 0 6px; }
   p { margin: 0 0 14px; }
-  .card {
-    background: var(--surface);
+  .phase-meta {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: 0 0 16px;
+  }
+  .box {
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 0 0 18px;
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-  .table-wrap {
-    overflow-x: auto;
-    border: 1px solid var(--border);
-    border-radius: 12px;
     background: var(--surface);
   }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 0.95rem;
+  .box h4 { margin-top: 0; }
+  .box.concept { border-left: 4px solid var(--accent); background: var(--accent-soft); }
+  .box.check { border-left: 4px solid var(--ok); background: var(--ok-bg); }
+  .box.pitfall { border-left: 4px solid var(--warn); background: var(--warn-bg); }
+  .box ul, .box ol { margin: 0; padding-left: 20px; }
+  .box li { margin-bottom: 6px; }
+  .box li:last-child { margin-bottom: 0; }
+  ol.steps { padding-left: 0; list-style: none; counter-reset: step; }
+  ol.steps > li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 4px 46px;
+    margin-bottom: 26px;
   }
-  th, td {
-    text-align: left;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  th {
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  tbody tr:nth-child(even) td { background: var(--row-alt); }
-  tbody tr:last-child td { border-bottom: none; }
-  td.num {
+  ol.steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
     font-weight: 700;
-    color: var(--accent);
-    width: 48px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  ol.steps > li h4 { margin-top: 4px; }
   code, pre {
     font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
   }
@@ -121,94 +163,891 @@
     background: var(--code-bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 16px;
+    padding: 14px 16px;
     overflow-x: auto;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     line-height: 1.5;
-    margin: 0 0 14px;
+    margin: 6px 0 14px;
   }
-  .note {
-    border-left: 3px solid var(--accent);
-    background: var(--accent-soft);
-    padding: 12px 16px;
-    border-radius: 0 10px 10px 0;
-    margin: 0 0 16px;
-    color: var(--muted);
+  pre code { background: none; padding: 0; font-size: inherit; }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    margin-bottom: 18px;
   }
-  ol.notes { padding-left: 20px; }
-  ol.notes li { margin-bottom: 14px; }
-  .tag {
-    display: inline-block;
-    font-size: 0.8rem;
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: 600;
+  table { border-collapse: collapse; width: 100%; font-size: 0.94rem; }
+  th, td {
+    text-align: left;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
   }
-  @media (max-width: 600px) {
-    h1 { font-size: 1.6rem; }
-    th, td { padding: 8px 10px; font-size: 0.9rem; }
+  th { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  tbody tr:last-child td { border-bottom: none; }
+  .hero-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0 8px;
+  }
+  .hero-steps div {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.93rem;
+  }
+  .hero-steps strong { color: var(--accent); display: block; margin-bottom: 2px; }
+
+  @media (max-width: 820px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { position: static; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--surface); }
+    nav.toc ol { display: flex; flex-wrap: wrap; gap: 4px; }
+    nav.toc li { margin: 0; }
+    nav.toc a { padding: 4px 8px; }
+    h1 { font-size: 1.65rem; }
+    h2 { font-size: 1.3rem; }
+    ol.steps > li { padding-left: 42px; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="layout">
 
-  <header>
-    <h1>MLQuity</h1>
-    <p class="subtitle">A follow-along build of López de Prado's <em>Advances in Financial Machine Learning</em>, applied to US equities on daily bars.</p>
-  </header>
+<nav class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#how">How to use this guide</a></li>
+    <li><a href="#setup">Step 0: Set up Python</a></li>
+    <li><a href="#primer">Python primer</a></li>
+    <li><a href="#phase0">Phase 0: Data and baseline</a></li>
+    <li><a href="#phase1">Phase 1: Labels</a></li>
+    <li><a href="#phase2">Phase 2: Sample weights</a></li>
+    <li><a href="#phase3">Phase 3: Fracdiff features</a></li>
+    <li><a href="#phase4">Phase 4: Purged CV</a></li>
+    <li><a href="#phase5">Phase 5: Model and importance</a></li>
+    <li><a href="#phase6">Phase 6: Bet sizing</a></li>
+    <li><a href="#phase7">Phase 7: Backtest statistics</a></li>
+    <li><a href="#pitfalls">Mistakes that ruin everything</a></li>
+    <li><a href="#chapters">Chapter map</a></li>
+  </ol>
+</nav>
 
-  <div class="note">
-    Read the chapter first, then build the module. Skip the microstructure material (Ch 19 and related).
+<main>
+
+<header>
+  <h1>MLQuity: Step-by-Step Guide</h1>
+  <p class="subtitle">Building López de Prado's <em>Advances in Financial Machine Learning</em> in Python, applied to US equities on daily bars.</p>
+</header>
+
+<section id="how">
+  <h2>How to use this guide</h2>
+  <p>Work through the phases in order. Each phase has the same parts, so you always know where you are:</p>
+  <div class="hero-steps">
+    <div><strong>1. Read</strong>The book chapter(s) for that phase.</div>
+    <div><strong>2. Understand</strong>A plain-English explanation of the idea.</div>
+    <div><strong>3. Build</strong>Numbered Python steps, each with a snippet.</div>
+    <div><strong>4. Check</strong>A concrete test that tells you it works.</div>
+    <div><strong>5. Avoid</strong>The mistakes that most often break it.</div>
   </div>
+  <p style="margin-top:16px">Rules for every phase:</p>
+  <div class="box">
+    <ul>
+      <li>Write the module under <code>src/</code> and tests under <code>tests/</code>. Notebooks are for poking at results, not for the code you keep.</li>
+      <li>Never edit anything in <code>data/raw/</code>. Write derived data to <code>data/processed/</code>.</li>
+      <li>Every time you try a configuration (a threshold, a window, a model setting), add a row to <code>trials.csv</code>, including the ones you throw away.</li>
+      <li>Run your tests before you move on. A phase is not finished until its checkpoint passes.</li>
+    </ul>
+  </div>
+  <p>The code in this guide is a simplified teaching version. It shows the logic clearly rather than matching the book's code exactly. Where the book gives a more careful version, use it, and treat these snippets as a way to understand it first.</p>
+</section>
 
-  <h2>Project layout</h2>
-  <pre><code>MLQuity/
-├── data/
-│   ├── raw/            # raw data, never edited
-│   └── processed/
-├── src/
-│   ├── data.py         # loading, point-in-time handling
-│   ├── features.py     # fracdiff + standard features          (Ch 5)
-│   ├── labeling.py     # CUSUM, triple-barrier, meta-labeling  (Ch 3)
-│   ├── weights.py      # uniqueness, time-decay                (Ch 4)
-│   ├── cv.py           # PurgedKFold, embargo, CPCV            (Ch 7, 12)
-│   ├── importance.py   # MDI, MDA, SFI                         (Ch 8)
-│   ├── sizing.py       # probability -&gt; position size          (Ch 10)
-│   ├── backtest.py     # event-driven daily backtest
-│   └── stats.py        # Sharpe, PSR, DSR, PBO                 (Ch 11, 14)
-├── notebooks/          # one per phase, exploration only
-├── tests/              # unit tests for every src module
-├── trials.csv          # log of EVERY config tried (needed for DSR)
-└── README.md</code></pre>
+<section id="setup">
+  <h2>Step 0: Set up Python</h2>
+  <p class="phase-meta">One-time setup. You need Python 3.11 or newer.</p>
+  <ol class="steps">
+    <li>
+      <h4>Create a virtual environment</h4>
+      <p>A virtual environment keeps this project's libraries separate from everything else on your machine. Run this from <code>C:\Projects\MLQuity</code>.</p>
+      <pre><code>python -m venv .venv</code></pre>
+    </li>
+    <li>
+      <h4>Activate it</h4>
+      <p>In PowerShell:</p>
+      <pre><code>.venv\Scripts\Activate.ps1</code></pre>
+      <p>If PowerShell blocks the script, run this once and try again: <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>. Your prompt should now start with <code>(.venv)</code>.</p>
+    </li>
+    <li>
+      <h4>Install the libraries</h4>
+      <p>Each library has a job in this project:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Library</th><th>What you use it for</th></tr></thead>
+          <tbody>
+            <tr><td><code>pandas</code></td><td>Tables of prices and dates (DataFrame, Series)</td></tr>
+            <tr><td><code>numpy</code></td><td>Fast arrays and maths</td></tr>
+            <tr><td><code>scipy</code></td><td>Normal distribution functions (for sizing and PSR)</td></tr>
+            <tr><td><code>statsmodels</code></td><td>The ADF stationarity test</td></tr>
+            <tr><td><code>scikit-learn</code></td><td>Metrics such as log loss, and a familiar model interface</td></tr>
+            <tr><td><code>lightgbm</code></td><td>The gradient-boosted classifier from Phase 5</td></tr>
+            <tr><td><code>matplotlib</code></td><td>Plots</td></tr>
+            <tr><td><code>pytest</code></td><td>Running your unit tests</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <pre><code>python -m pip install --upgrade pip
+python -m pip install pandas numpy scipy statsmodels scikit-learn lightgbm matplotlib pytest</code></pre>
+      <p>Save the list so you can recreate the environment later:</p>
+      <pre><code>python -m pip freeze &gt; requirements.txt</code></pre>
+    </li>
+    <li>
+      <h4>Check the install</h4>
+      <pre><code>python -c "import pandas, numpy, scipy, statsmodels, sklearn, lightgbm; print('all good')"</code></pre>
+    </li>
+  </ol>
+  <div class="box check">
+    <h4>Checkpoint</h4>
+    <p>The command prints <code>all good</code> with no error.</p>
+  </div>
+</section>
 
-  <h2>Phases</h2>
+<section id="primer">
+  <h2>Python primer for this project</h2>
+  <p>You do not need to be an expert. These are the handful of patterns that appear in almost every step.</p>
+  <div class="box concept">
+    <h4>The five things you will use constantly</h4>
+    <ul>
+      <li><strong>A <code>Series</code></strong> is one column with a label (the index) on each row. Prices by date are a Series with dates as the index.</li>
+      <li><strong><code>.loc</code> vs <code>.iloc</code></strong>: <code>.loc</code> selects by label (a date), <code>.iloc</code> selects by position (row 0, row 5). Mixing them up is the most common silent bug, so be deliberate.</li>
+      <li><strong><code>.shift(1)</code></strong> moves values down one row. It is how you make today's row use yesterday's information. This is the main defence against look-ahead bias.</li>
+      <li><strong><code>.pct_change()</code></strong> gives the simple return from one row to the next. <strong><code>np.log(price).diff()</code></strong> gives the log return.</li>
+      <li><strong>Vectorisation</strong>: <code>series * 2</code> or <code>a + b</code> works on every row at once. Use plain <code>for</code> loops only when the logic depends on the previous row (like the CUSUM filter), because loops are slower and easier to get wrong.</li>
+    </ul>
+  </div>
+  <h3>Loading data and checking it</h3>
+  <pre><code>import pandas as pd
+
+prices = pd.read_csv("data/raw/prices.csv", parse_dates=["date"])
+prices = prices.set_index("date").sort_index()
+
+print(prices.head())        # first 5 rows
+print(prices.index.min(), prices.index.max())
+print(prices.isna().sum())  # count of missing values per column</code></pre>
+  <p>Always do these three checks on any new data: the date range is what you expect, the index is sorted, and you know how many values are missing.</p>
+</section>
+
+<section id="phase0">
+  <h2>Phase 0: Data and baseline strategies</h2>
+  <p class="phase-meta">Read: Ch 1-2 (skim) &nbsp;·&nbsp; Build: <code>src/data.py</code>, a baseline backtest &nbsp;·&nbsp; Done when: a backtest runs from start to finish.</p>
+  <div class="box concept">
+    <h4>The idea</h4>
+    <p>Before any machine learning, you need two things: clean data, and a simple strategy to beat. If you cannot beat buy-and-hold, a complex model is just noise. The baseline is also your test harness: you prove the backtest machinery works on something you already understand.</p>
+    <p><strong>Bars</strong> are the unit of time you trade on. This project uses daily bars: one row per trading day with the open, high, low, close, and volume.</p>
+  </div>
+  <ol class="steps">
+    <li>
+      <h4>Write the loader with strict checks</h4>
+      <p>The loader should refuse bad data loudly. A silent fix hides problems that show up later as strange results.</p>
+      <pre><code># src/data.py
+from pathlib import Path
+import pandas as pd
+
+def load_prices(path: Path) -> pd.DataFrame:
+    df = pd.read_csv(path, parse_dates=["date"])
+    df = df.set_index("date").sort_index()
+    if df.index.duplicated().any():
+        raise ValueError(f"Duplicate dates in {path}")
+    if df["close"].isna().any():
+        raise ValueError(f"Missing close prices in {path}")
+    return df[["close"]]</code></pre>
+      <p><strong>Note on data sources:</strong> free sources are convenient but usually leave out delisted companies. That is survivorship bias (see the pitfalls section). Decide on your data source deliberately before you build on it.</p>
+    </li>
+    <li>
+      <h4>Buy-and-hold baseline</h4>
+      <p>Daily return is the percentage change in close. The equity curve is the running product of (1 + return).</p>
+      <pre><code>import numpy as np
+
+ret = prices["close"].pct_change()
+bh_equity = (1 + ret).cumprod()</code></pre>
+    </li>
+    <li>
+      <h4>Momentum baseline, without look-ahead</h4>
+      <p>The signal says "buy if the past 12 months were positive". The critical detail is <code>.shift(1)</code>: you can only act on a signal the next day, after the close that produced it.</p>
+      <pre><code>mom = prices["close"].pct_change(252)               # return over ~12 months
+signal = (mom &gt; 0).astype(float).shift(1).fillna(0.0)  # trade tomorrow on today's signal
+strat_ret = signal * ret</code></pre>
+    </li>
+    <li>
+      <h4>Write a Sharpe ratio function</h4>
+      <p>Sharpe is mean return divided by volatility, scaled to a year. With daily data, multiply by the square root of 252 (trading days per year).</p>
+      <pre><code>def sharpe(r: pd.Series, periods: int = 252) -> float:
+    return r.mean() / r.std() * np.sqrt(periods)
+
+print("Buy and hold:", sharpe(ret.dropna()))
+print("Momentum:    ", sharpe(strat_ret.dropna()))</code></pre>
+    </li>
+    <li>
+      <h4>Start the trials log now</h4>
+      <p>Create <code>trials.csv</code> with a header, and add a row for each configuration you run. You need this for Phase 7.</p>
+      <pre><code>trial_id,date,description,lookback,sharpe
+1,2026-10-13,momentum baseline,252,0.00</code></pre>
+    </li>
+  </ol>
+  <div class="box check">
+    <h4>Checkpoint</h4>
+    <ul>
+      <li>The loader raises an error when you feed it a file with a duplicate date.</li>
+      <li>Both baselines produce an equity curve and a Sharpe number, with no <code>NaN</code> in the middle of the series.</li>
+      <li>You can confirm the momentum signal never uses same-day information. Check one date by hand.</li>
+    </ul>
+  </div>
+  <div class="box pitfall">
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Forgetting <code>.shift(1)</code> on a signal. Your backtest will look amazing and be impossible to trade.</li>
+      <li>Starting <code>trials.csv</code> later. You will not remember the configurations you tried, and the Phase 7 statistics will be wrong.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="phase1">
+  <h2>Phase 1: Labels (CUSUM, triple-barrier, meta-labeling)</h2>
+  <p class="phase-meta">Read: Ch 3 &nbsp;·&nbsp; Build: <code>src/labeling.py</code> and unit tests &nbsp;·&nbsp; Done when: label counts and class balance look sensible, and tests pass.</p>
+  <div class="box concept">
+    <h4>The idea</h4>
+    <p>Standard ML labels every day as "up" or "down". That is a poor target: it ignores whether the move was big enough to matter, and it ignores that the price path matters, not just the end point. AFML instead:</p>
+    <ul>
+      <li><strong>Samples events, not days.</strong> The CUSUM filter only fires when the cumulative price movement has drifted past a threshold. Quiet days produce nothing.</li>
+      <li><strong>Labels with barriers.</strong> From each event, you set a profit-taking barrier above and a stop-loss barrier below, plus a time limit. Whichever barrier the price hits first decides the label. This is the triple barrier.</li>
+      <li><strong>Separates direction from sizing.</strong> Meta-labeling takes a simple "side" signal (long or short) and trains a second model to predict whether that side is right. You will return to this in Phase 6.</li>
+    </ul>
+  </div>
+  <ol class="steps">
+    <li>
+      <h4>Daily volatility</h4>
+      <p>Barrier widths should scale with how volatile the stock is right now. An exponentially weighted standard deviation of returns is a common choice. It reacts faster than a simple rolling window.</p>
+      <pre><code>ret = np.log(prices["close"]).diff()
+sigma = ret.ewm(span=100).std()</code></pre>
+    </li>
+    <li>
+      <h4>CUSUM filter (sample events)</h4>
+      <p>Keep two running sums: one for upward drift, one for downward drift. Each sum resets at zero whenever it goes the wrong way. When either exceeds the threshold <code>h</code>, record an event and reset that sum.</p>
+      <pre><code>def cusum_events(close: pd.Series, h: float) -> pd.DatetimeIndex:
+    diff = np.log(close).diff().dropna()
+    s_pos, s_neg = 0.0, 0.0
+    events = []
+    for t, r in diff.items():
+        s_pos = max(0.0, s_pos + r)
+        s_neg = min(0.0, s_neg + r)
+        if s_pos &gt; h:
+            s_pos = 0.0
+            events.append(t)
+        elif s_neg &lt; -h:
+            s_neg = 0.0
+            events.append(t)
+    return pd.DatetimeIndex(events)</code></pre>
+      <p>This version uses one fixed <code>h</code>. The book sets the threshold relative to volatility at each point, which is better when volatility changes over time. Start simple, then upgrade.</p>
+    </li>
+    <li>
+      <h4>Triple-barrier label for one event</h4>
+      <p>Starting from an event at <code>t0</code>, set the upper and lower barriers as multiples of volatility. Walk forward day by day. The first barrier touched sets the label. If time runs out first, the label is 0.</p>
+      <pre><code>def triple_barrier(close: pd.Series, sigma: pd.Series, t0, pt: float = 1.0, sl: float = 1.0, max_bars: int = 5):
+    p0 = close.loc[t0]
+    s0 = sigma.loc[t0]
+    upper = p0 * np.exp(pt * s0)    # profit-take level
+    lower = p0 * np.exp(-sl * s0)   # stop-loss level
+
+    i0 = close.index.get_loc(t0)
+    end = min(i0 + max_bars, len(close) - 1)
+    for i in range(i0 + 1, end + 1):
+        p = close.iloc[i]
+        if p &gt;= upper:
+            return close.index[i], +1   # profit-take hit first
+        if p &lt;= lower:
+            return close.index[i], -1   # stop-loss hit first
+    return close.index[end], 0          # vertical barrier: time ran out</code></pre>
+      <p>The function returns <strong>when the label is resolved</strong> (<code>t1</code>) as well as the label itself. You need <code>t1</code> in Phase 2 and Phase 4, so keep it.</p>
+    </li>
+    <li>
+      <h4>Apply it to every event</h4>
+      <pre><code>events = cusum_events(prices["close"], h=0.02)
+rows = []
+for t0 in events:
+    t1, label = triple_barrier(prices["close"], sigma, t0)
+    rows.append({"t0": t0, "t1": t1, "label": label})
+labels = pd.DataFrame(rows).set_index("t0")
+
+print(labels["label"].value_counts())</code></pre>
+    </li>
+    <li>
+      <h4>Meta-labeling</h4>
+      <p>Pick a simple primary side, for example the sign of the momentum signal from Phase 0. Then relabel: the meta-label is 1 if the side was right, 0 otherwise. Train the classifier to predict the meta-label, not the raw direction.</p>
+      <pre><code>side = np.sign(mom).reindex(labels.index)      # +1 long, -1 short, from the primary rule
+meta_label = (labels["label"] == side).astype(int)
+meta_label = meta_label[labels["label"] != 0]  # drop time-outs, they are ambiguous</code></pre>
+      <p>Dropping time-outs is a judgement call. Note it in your notes, because it changes the class balance.</p>
+    </li>
+    <li>
+      <h4>Write unit tests</h4>
+      <p>A test should build a tiny price series where you know the answer.</p>
+      <pre><code># tests/test_labeling.py
+import pandas as pd
+from src.labeling import triple_barrier
+
+def test_profit_take_hit_first():
+    idx = pd.date_range("2024-01-01", periods=4, freq="B")
+    close = pd.Series([100.0, 100.0, 105.0, 90.0], index=idx)
+    sigma = pd.Series(0.01, index=idx)          # tiny barriers, around +/-1 percent
+    t1, label = triple_barrier(close, sigma, idx[0], pt=1.0, sl=1.0, max_bars=3)
+    assert label == 1
+    assert t1 == idx[1] or t1 == idx[2]</code></pre>
+      <p>Run tests with <code>python -m pytest tests -q</code>. Add a test for a stop-loss hit and one for a time-out.</p>
+    </li>
+  </ol>
+  <div class="box check">
+    <h4>Checkpoint</h4>
+    <ul>
+      <li>The number of events is much smaller than the number of days. If CUSUM fires on almost every day, <code>h</code> is too small.</li>
+      <li>Labels are not almost all one value. A heavily lopsided balance (for example 95/5) usually means the barriers are set wrong. Check the counts before you train anything.</li>
+      <li>Your three unit tests pass: profit-take, stop-loss, and time-out.</li>
+    </ul>
+  </div>
+  <div class="box pitfall">
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Using <code>t1</code> as the event time. Keep <code>t0</code> (the start) and <code>t1</code> (the end) separate. Phase 4 depends on that gap.</li>
+      <li>Computing <code>sigma</code> with future data. It must only use data up to <code>t0</code>, which <code>ewm</code> does by default.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="phase2">
+  <h2>Phase 2: Concurrency, uniqueness, and sample weights</h2>
+  <p class="phase-meta">Read: Ch 4 &nbsp;·&nbsp; Build: <code>src/weights.py</code> &nbsp;·&nbsp; Done when: weights match a toy example you worked out by hand.</p>
+  <div class="box concept">
+    <h4>The idea</h4>
+    <p>Labels overlap. Event A runs from day 1 to day 5, and event B starts on day 3. On days 3 to 5 they both describe the same price moves. If you treat them as independent, the model sees the same information twice and overfits. The fix is to weight each event by how much unique information it carries.</p>
+    <ul>
+      <li><strong>Concurrency</strong>: how many events are active on each day.</li>
+      <li><strong>Uniqueness</strong>: for each event, the average of 1 / concurrency across the days it covers. An event that overlaps nobody has uniqueness 1.</li>
+      <li><strong>Sample weight</strong>: uniqueness multiplied by the size of the return the event captures, normalised so the weights average 1.</li>
+    </ul>
+  </div>
+  <div class="box concept">
+    <h4>Toy example (do this by hand first)</h4>
+    <p>Three days. Event A covers days 1 to 2. Event B covers days 2 to 3.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Day</th><th>Active events</th><th>Concurrency c</th><th>1 / c</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>A</td><td>1</td><td>1.00</td></tr>
+          <tr><td>2</td><td>A, B</td><td>2</td><td>0.50</td></tr>
+          <tr><td>3</td><td>B</td><td>1</td><td>1.00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Uniqueness of A = mean(1.00, 0.50) = <strong>0.75</strong>. Uniqueness of B = mean(0.50, 1.00) = <strong>0.75</strong>. Both events are equally unique here, so they get equal weight.</p>
+  </div>
+  <ol class="steps">
+    <li>
+      <h4>Count concurrency</h4>
+      <p>Build a daily series where each day counts how many event windows cover it.</p>
+      <pre><code>def num_concurrent(t0: pd.Series, t1: pd.Series, index: pd.DatetimeIndex) -> pd.Series:
+    # t0 and t1 are aligned Series: index = event start, values = event end
+    c = pd.Series(0, index=index)
+    for start, end in zip(t0, t1):
+        c.loc[start:end] += 1
+    return c</code></pre>
+      <p>The <code>zip</code> loop is fine here. There are only as many iterations as events, and each one is a simple slice.</p>
+    </li>
+    <li>
+      <h4>Average uniqueness per event</h4>
+      <pre><code>def avg_uniqueness(t0: pd.Series, t1: pd.Series, c: pd.Series) -> pd.Series:
+    vals = [(1.0 / c.loc[start:end]).mean() for start, end in zip(t0, t1)]
+    return pd.Series(vals, index=t0.index)</code></pre>
+    </li>
+    <li>
+      <h4>Turn uniqueness into a sample weight</h4>
+      <p>Weight by uniqueness times the absolute return the event captured, then scale so the mean is 1. Scaling keeps the learning rate and regularisation settings meaningful.</p>
+      <pre><code>captured = (prices["close"].reindex(labels["t1"]).values /
+            prices["close"].reindex(labels.index).values) - 1
+weights = avg_uniqueness(labels_t0, labels_t1, c) * np.abs(captured)
+weights = weights / weights.mean()</code></pre>
+      <p>Keep the names aligned. The <code>reindex</code> calls give you returns in the same row order as the events, so the arithmetic matches row by row.</p>
+    </li>
+    <li>
+      <h4>Test against the toy example</h4>
+      <pre><code># tests/test_weights.py
+import pandas as pd
+from src.weights import num_concurrent, avg_uniqueness
+
+def test_toy_uniqueness():
+    idx = pd.date_range("2024-01-01", periods=3, freq="B")
+    t0 = pd.Series(list(idx[[0, 1]]), index=[0, 1])
+    t1 = pd.Series(list(idx[[1, 2]]), index=[0, 1])
+    c = num_concurrent(t0, t1, idx)
+    assert list(c) == [1, 2, 1]
+    u = avg_uniqueness(t0, t1, c)
+    assert abs(u[0] - 0.75) &lt; 1e-9
+    assert abs(u[1] - 0.75) &lt; 1e-9</code></pre>
+    </li>
+  </ol>
+  <div class="box check">
+    <h4>Checkpoint</h4>
+    <ul>
+      <li>The test above passes, and its numbers match the table you worked out by hand.</li>
+      <li>Weights average 1 across the dataset, and no weight is negative or <code>NaN</code>.</li>
+    </ul>
+  </div>
+  <div class="box pitfall">
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Forgetting that <code>t1</code> is inclusive. An event that ends on day 2 covers day 2. Slicing with <code>.loc</code> already includes the end, which matches.</li>
+      <li>Computing weights on the full dataset and then splitting. That is fine for weights, since they use only label timing. Just make sure you never use returns from the future to pick a model.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="phase3">
+  <h2>Phase 3: Fractionally differentiated features</h2>
+  <p class="phase-meta">Read: Ch 5 &nbsp;·&nbsp; Build: <code>src/features.py</code> &nbsp;·&nbsp; Done when: features pass a stationarity test but still correlate with price.</p>
+  <div class="box concept">
+    <h4>The idea</h4>
+    <p>Models need stationary inputs (statistics that do not drift over time). Prices are not stationary. Returns are, but returns throw away all the memory in the price level. Fractional differencing sits between the two. With a fraction <code>d</code> between 0 and 1, you keep as much memory as possible while making the series stationary enough for a model.</p>
+    <p>The goal is the <strong>smallest</strong> <code>d</code> that passes the ADF test. Smaller <code>d</code> keeps more memory.</p>
+  </div>
+  <ol class="steps">
+    <li>
+      <h4>Compute the weights</h4>
+      <p>The weights start at 1 and decay. Each new weight is the previous one multiplied by <code>(d - k + 1) / k</code>, with a minus sign. Stop when a weight is tiny, so you only use a fixed window.</p>
+      <pre><code>def frac_weights(d: float, thresh: float = 1e-5) -> np.ndarray:
+    w = [1.0]
+    k = 1
+    while True:
+        w_k = -w[-1] * (d - k + 1) / k
+        if abs(w_k) &lt; thresh:
+            break
+        w.append(w_k)
+        k += 1
+    return np.array(w[::-1])   # oldest first, so the newest value gets w[0] at the end</code></pre>
+    </li>
+    <li>
+      <h4>Apply the weights with a fixed window</h4>
+      <p>Each output value is a weighted sum of the last <code>width</code> log prices. The first few rows have no full window, so they stay <code>NaN</code>.</p>
+      <pre><code>def frac_diff(log_price: pd.Series, d: float, thresh: float = 1e-5) -> pd.Series:
+    w = frac_weights(d, thresh)
+    width = len(w)
+    values = log_price.values
+    out = np.full(len(values), np.nan)
+    for i in range(width - 1, len(values)):
+        out[i] = np.dot(w, values[i - width + 1 : i + 1])
+    return pd.Series(out, index=log_price.index)</code></pre>
+    </li>
+    <li>
+      <h4>Search for the minimum d that passes ADF</h4>
+      <p>The Augmented Dickey-Fuller (ADF) test has a null hypothesis of a unit root, meaning non-stationary. A p-value below 0.05 rejects that, so the series is stationary.</p>
+      <pre><code>from statsmodels.tsa.stattools import adfuller
+
+def min_d(log_price: pd.Series, grid=np.arange(0.0, 1.0001, 0.05)):
+    for d in grid:
+        x = frac_diff(log_price, d).dropna()
+        p_value = adfuller(x)[1]
+        if p_value &lt; 0.05:
+            return round(float(d), 2), p_value
+    return None, None   # no d in the grid passed: widen the grid or check the data</code></pre>
+      <p>The function returns <code>None</code> instead of guessing when nothing passes. Handle that case in your code. Do not silently pick a default.</p>
+    </li>
+    <li>
+      <h4>Check that memory is kept</h4>
+      <p>A stationary series that has no relationship to price is useless. Check the correlation with the original log price, over the rows where both exist.</p>
+      <pre><code>d, p = min_d(log_price)
+fd = frac_diff(log_price, d)
+both = pd.concat([fd, log_price], axis=1).dropna()
+print("d =", d, "ADF p =", round(p, 4))
+print("correlation with log price:", round(both.corr().iloc[0, 1], 3))</code></pre>
+      <p>Keep the correlation as high as you can while ADF still passes. Near zero means you differenced too much. On a synthetic random walk in testing, <code>d = 0.4</code> kept a correlation of about 0.73, while <code>d = 1.0</code> dropped it to about 0.02. Real prices will differ, so use this as a sanity check, not a target.</p>
+    </li>
+  </ol>
+  <div class="box check">
+    <h4>Checkpoint</h4>
+    <ul>
+      <li>ADF p-value is below 0.05 for the chosen <code>d</code>.</li>
+      <li>Correlation with log price is still high. The minimum <code>d</code> varies by stock, so expect different values across your universe. Record the chosen values in <code>trials.csv</code>.</li>
+    </ul>
+  </div>
+  <div class="box pitfall">
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Running ADF on the raw price series instead of the fractionally differentiated one.</li>
+      <li>Choosing <code>d</code> by eye. Let the search decide, and record the result in <code>trials.csv</code>.</li>
+      <li>Ignoring the <code>NaN</code> rows at the start. Drop them before you fit a model, but keep the date alignment intact.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="phase4">
+  <h2>Phase 4: Purged K-Fold cross-validation with embargo</h2>
+  <p class="phase-meta">Read: Ch 7 &nbsp;·&nbsp; Build: <code>src/cv.py</code> and a leakage test &nbsp;·&nbsp; Done when: a test shows no training label overlaps the test period.</p>
+  <div class="box concept">
+    <h4>The idea</h4>
+    <p>Ordinary K-Fold shuffles data and splits it into folds. In finance that leaks information in two ways:</p>
+    <ul>
+      <li><strong>Overlap</strong>: a training event can run past the start of a test event, so the model learns the answer to a test question.</li>
+      <li><strong>Serial correlation</strong>: observations next to the test window carry information about it.</li>
+    </ul>
+    <p><strong>Purging</strong> removes training events whose label window overlaps the test window. <strong>Embargo</strong> removes a further block of training events just after the test window, to cover the remaining correlation.</p>
+  </div>
+  <ol class="steps">
+    <li>
+      <h4>Split into contiguous folds</h4>
+      <p>Folds are contiguous blocks in time, not random samples. That keeps the test period a real period.</p>
+      <pre><code>import numpy as np
+
+folds = np.array_split(np.arange(n), n_splits)</code></pre>
+    </li>
+    <li>
+      <h4>Write the purged splitter</h4>
+      <p>For each test fold, find its time window. Then drop any training event whose <code>[t0, t1]</code> interval overlaps that window, and drop an embargo block after it.</p>
+      <pre><code># src/cv.py
+import numpy as np
+import pandas as pd
+
+class PurgedKFold:
+    def __init__(self, n_splits: int = 5, embargo_pct: float = 0.01):
+        self.n_splits = n_splits
+        self.embargo_pct = embargo_pct
+
+    def split(self, X: pd.DataFrame, t1: pd.Series):
+        # X.index holds event start times (t0); t1 must be aligned with X
+        n = len(X)
+        embargo = int(n * self.embargo_pct)
+        indices = np.arange(n)
+        t0_values = X.index.values
+        t1_values = t1.values
+
+        for test_idx in np.array_split(indices, self.n_splits):
+            test_start = t0_values[test_idx[0]]
+            test_end = t1_values[test_idx].max()
+
+            # purge: any event whose interval touches [test_start, test_end]
+            overlaps = (t0_values &lt;= test_end) &amp; (t1_values &gt;= test_start)
+            train_mask = ~overlaps
+            train_mask[test_idx] = False
+
+            # embargo: drop the block of events immediately after the test fold
+            stop = min(test_idx[-1] + 1 + embargo, n)
+            train_mask[test_idx[-1] + 1 : stop] = False
+
+            yield indices[train_mask], test_idx</code></pre>
+      <p>Note that <code>split</code> is a generator. Use <code>list(cv.split(X, t1))</code> if you need the splits more than once.</p>
+    </li>
+    <li>
+      <h4>Use it for model training</h4>
+      <p>Scikit-learn's cross-validation helpers need extra setup for sample weights, so a plain loop is clearer and easier to debug.</p>
+      <pre><code>cv = PurgedKFold(n_splits=5, embargo_pct=0.01)
+for train, test in cv.split(X, t1):
+    model.fit(X.iloc[train], y.iloc[train], sample_weight=w.iloc[train])
+    p = model.predict_proba(X.iloc[test])[:, 1]
+    # store p and y for this fold so you can score them later</code></pre>
+    </li>
+    <li>
+      <h4>Write the leakage test</h4>
+      <p>This test is the most important one in the project. It checks the thing that matters: no training event touches the test window.</p>
+      <pre><code># tests/test_cv.py
+def test_no_leakage(X, t1):
+    cv = PurgedKFold(n_splits=5, embargo_pct=0.01)
+    for train, test in cv.split(X, t1):
+        assert len(set(train) &amp; set(test)) == 0
+        test_start = X.index[test[0]]
+        test_end = t1.iloc[test].max()
+        train_t0 = X.index[train]
+        train_t1 = t1.iloc[train]
+        # no training interval may touch the test window
+        touches = (train_t0 &lt;= test_end) &amp; (train_t1 &gt;= test_start)
+        assert not touches.any()</code></pre>
+    </li>
+  </ol>
+  <div class="box check">
+    <h4>Checkpoint</h4>
+    <ul>
+      <li>The leakage test passes for every fold.</li>
+      <li>You can see the purge working: print how many training rows each fold removes. It should be a noticeable number, not zero, on a dataset with long labels.</li>
+    </ul>
+  </div>
+  <div class="box pitfall">
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Using <code>sklearn.model_selection.KFold</code> or <code>cross_val_score</code> with default settings. They shuffle and do not purge, so your scores will be inflated.</li>
+      <li>Setting <code>t1</code> to the event start instead of the label end. The purge then does nothing.</li>
+      <li>Fitting the scaler or the fracdiff <code>d</code> on all the data before splitting. Fit those inside each training fold.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="phase5">
+  <h2>Phase 5: LightGBM baseline and feature importance</h2>
+  <p class="phase-meta">Read: Ch 6 (skim), Ch 8 &nbsp;·&nbsp; Build: a model, <code>src/importance.py</code> &nbsp;·&nbsp; Done when: importance rankings are stable across folds, not random.</p>
+  <div class="box concept">
+    <h4>The idea</h4>
+    <p>A model that scores well can still be using noise. Feature importance answers "which inputs does the model actually rely on?" The book uses three methods, each with a different strength:</p>
+    <ul>
+      <li><strong>MDI</strong> (mean decrease impurity): read from the tree structure during training. Fast, but only reflects the training data, and it favours features with many possible values.</li>
+      <li><strong>MDA</strong> (mean decrease accuracy): shuffle one feature on held-out data and see how much the score gets worse. Measures out-of-sample use.</li>
+      <li><strong>SFI</strong> (single feature importance): train the model on one feature at a time. Shows what each feature can do alone, with no interaction effects.</li>
+    </ul>
+    <p>If the three methods disagree wildly, or the ranking changes from fold to fold, the signal is probably noise.</p>
+  </div>
+  <ol class="steps">
+    <li>
+      <h4>Train a baseline classifier</h4>
+      <p>Start with a small model. Restricting tree size and requiring many samples per leaf guards against fitting noise.</p>
+      <pre><code>import lightgbm as lgb
+
+model = lgb.LGBMClassifier(
+    n_estimators=200,
+    learning_rate=0.05,
+    num_leaves=15,
+    min_child_samples=50,   # each leaf needs many events, which limits overfitting
+)
+model.fit(X.iloc[train], y.iloc[train], sample_weight=w.iloc[train])</code></pre>
+    </li>
+    <li>
+      <h4>MDI (from the model)</h4>
+      <p>By default LightGBM counts how often each feature is used to split. Set <code>importance_type="gain"</code> if you want the total improvement instead, which is closer to MDI.</p>
+      <pre><code>mdi = pd.Series(model.feature_importances_, index=X.columns).sort_values(ascending=False)
+print(mdi)</code></pre>
+    </li>
+    <li>
+      <h4>MDA (on held-out data)</h4>
+      <p>For each feature, shuffle its column in the test fold, recompute the log loss, and record how much worse it got. Repeat over folds and average.</p>
+      <pre><code>from sklearn.metrics import log_loss
+
+def mda_one_feature(model, X_test, y_test, w_test, col, rng):
+    base = log_loss(y_test, model.predict_proba(X_test)[:, 1], sample_weight=w_test)
+    X_perm = X_test.copy()
+    X_perm[col] = rng.permutation(X_perm[col].values)
+    shuffled = log_loss(y_test, model.predict_proba(X_perm)[:, 1], sample_weight=w_test)
+    return shuffled - base   # positive means the feature helped</code></pre>
+      <p>Use a fixed random generator, such as <code>rng = np.random.default_rng(42)</code>, so results are reproducible.</p>
+    </li>
+    <li>
+      <h4>SFI (one feature at a time)</h4>
+      <p>Train and score the model with a single feature for each column. This is a loop over columns with the same purged folds.</p>
+      <pre><code>def sfi_score(X_col, y, w, t1, cv):
+    scores = []
+    for train, test in cv.split(X_col, t1):
+        m = lgb.LGBMClassifier(n_estimators=100, learning_rate=0.05, num_leaves=7, min_child_samples=50)
+        m.fit(X_col.iloc[train], y.iloc[train], sample_weight=w.iloc[train])
+        p = m.predict_proba(X_col.iloc[test])[:, 1]
+        scores.append(-log_loss(y.iloc[test], p, sample_weight=w.iloc[test]))
+    return np.mean(scores)
+
+sfi = pd.Series({c: sfi_score(X[[c]], y, w, t1, cv) for c in X.columns})</code></pre>
+      <p>Log loss is negated so that a higher score means a better feature.</p>
+    </li>
+    <li>
+      <h4>Check stability across folds</h4>
+      <p>Compute the three rankings for each fold, then compare them. Spearman rank correlation is a simple way to measure agreement.</p>
+      <pre><code>from scipy.stats import spearmanr
+
+rho, _ = spearmanr(fold1_mda, fold2_mda)
+print("fold-to-fold rank agreement:", round(rho, 2))</code></pre>
+      <p>A rank correlation close to 1 means the importance is stable. Values near 0 mean you are looking at noise.</p>
+    </li>
+  </ol>
+  <div class="box check">
+    <h4>Checkpoint</h4>
+    <ul>
+      <li>The top features agree roughly across MDI, MDA, and SFI.</li>
+      <li>Rank correlation across folds is high. There is no universal threshold, so compare it against the rank correlation of shuffled importances as a rough noise baseline.</li>
+      <li>Your score beats a random or coin-flip baseline on the held-out folds.</li>
+    </ul>
+  </div>
+  <div class="box pitfall">
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Trusting MDI alone. It is computed on training data, so it can rank a feature highly that the model memorised.</li>
+      <li>Forgetting to use the purged folds for MDA and SFI. Importance computed on leaking folds is meaningless.</li>
+      <li>Tuning many hyperparameters at once. Keep the model simple at this stage so the importance results are easy to read.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="phase6">
+  <h2>Phase 6: Bet sizing and discretization</h2>
+  <p class="phase-meta">Read: Ch 10 &nbsp;·&nbsp; Build: <code>src/sizing.py</code> &nbsp;·&nbsp; Done when: a sized strategy is compared with a fixed-size one on the same folds.</p>
+  <div class="box concept">
+    <h4>The idea</h4>
+    <p>The classifier gives a probability that the side is right. Instead of betting the same amount every time, bet more when the probability is high and less when it is near 50 percent. The book converts the probability into a bet size between -1 and 1 using a normal distribution. Then you round the size to a few levels, so you do not trade tiny changes every day.</p>
+  </div>
+  <ol class="steps">
+    <li>
+      <h4>Convert a probability into a bet size</h4>
+      <p>For a binary outcome, the z-statistic measures how far the probability is from a coin flip. The normal CDF turns that into a size between -1 and 1.</p>
+      <pre><code>from scipy.stats import norm
+
+def bet_size(p: np.ndarray) -> np.ndarray:
+    p = np.clip(p, 1e-6, 1 - 1e-6)   # avoid division by zero at 0 and 1
+    z = (p - 0.5) / np.sqrt(p * (1 - p))
+    return 2 * norm.cdf(z) - 1</code></pre>
+      <p>A probability of 0.5 gives size 0. A probability of 0.9 gives a size of about 0.82. The clip is there because the formula breaks at exactly 0 or 1, and failing silently would hide a real problem.</p>
+    </li>
+    <li>
+      <h4>Apply the side from the primary model</h4>
+      <p>Multiply by the side from Phase 1 (+1 or -1). The sign of the position comes from the primary rule, and the size comes from the classifier.</p>
+      <pre><code>position = side * bet_size(p_meta)</code></pre>
+    </li>
+    <li>
+      <h4>Discretize</h4>
+      <p>Round to steps of 0.1 (or whatever step you choose). This cuts turnover, because small changes in probability no longer cause trades.</p>
+      <pre><code>def discretize(m: np.ndarray, step: float = 0.1) -> np.ndarray:
+    return np.round(m / step) * step</code></pre>
+    </li>
+    <li>
+      <h4>Compare against fixed size</h4>
+      <p>Run the same folds with two strategies: fixed size (always +1 or -1 with the side) and sized (the discretized position). Keep everything else identical so the comparison is fair. Record both in <code>trials.csv</code>.</p>
+      <pre><code>fixed_pos = side
+sized_pos = discretize(side * bet_size(p_meta))
+
+fixed_ret = fixed_pos * ret_next
+sized_ret = sized_pos * ret_next</code></pre>
+      <p>Here <code>ret_next</code> is the return over each event's holding period, aligned to the events. Make sure it starts after the signal, as in Phase 0.</p>
+    </li>
+  </ol>
+  <div class="box check">
+    <h4>Checkpoint</h4>
+    <ul>
+      <li>Bet sizes stay within -1 and 1, with no <code>NaN</code>.</li>
+      <li>Probabilities near 0.5 give sizes near 0.</li>
+      <li>You have a side-by-side comparison, and you can explain in one sentence why the sized version does or does not win.</li>
+    </ul>
+  </div>
+  <div class="box pitfall">
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Calibrating the classifier's probabilities on the same data you evaluate on. Use out-of-fold predictions only.</li>
+      <li>Looking only at the sized strategy's return. Also check turnover. A sizing method that trades constantly will lose to costs, even with a better gross return.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="phase7">
+  <h2>Phase 7: Backtest statistics (CPCV, PSR, DSR, PBO)</h2>
+  <p class="phase-meta">Read: Ch 11, 12, 14 &nbsp;·&nbsp; Build: <code>src/backtest.py</code> (CPCV), <code>src/stats.py</code> &nbsp;·&nbsp; Done when: you have a distribution of Sharpe ratios, not a single number.</p>
+  <div class="box concept">
+    <h4>The idea</h4>
+    <p>One backtest gives one Sharpe ratio, and that number is almost always too optimistic. Three problems:</p>
+    <ul>
+      <li><strong>Single path</strong>: one historical path is one sample of what could have happened. Combinatorial purged cross-validation (CPCV) builds many paths from the same data.</li>
+      <li><strong>Selection</strong>: if you tried many configurations and kept the best, its Sharpe is inflated. The Deflated Sharpe Ratio (DSR) corrects for the number of trials in <code>trials.csv</code>.</li>
+      <li><strong>Luck and shape</strong>: the Probabilistic Sharpe Ratio (PSR) asks how likely the true Sharpe is above a benchmark, given the length of the sample and the skew and fat tails of returns.</li>
+    </ul>
+    <p>The Probability of Backtest Overfitting (PBO) estimates how often the best in-sample configuration performs below median out-of-sample.</p>
+  </div>
+  <ol class="steps">
+    <li>
+      <h4>Build CPCV splits</h4>
+      <p>Divide the timeline into <code>N</code> groups. Choose <code>k</code> of them as test groups in every combination. Each combination gives a test set, and the test groups are stitched into several full backtest paths. Each path is a complete history you can compute a Sharpe on.</p>
+      <pre><code>from itertools import combinations
+from math import comb
+
+N, k = 6, 2
+test_combos = list(combinations(range(N), k))
+n_paths = k * comb(N, k) // N   # number of full paths, here 5
+print(len(test_combos), "splits,", n_paths, "paths")</code></pre>
+      <p>Purging and embargo from Phase 4 still apply at every boundary between a test group and a training group.</p>
+    </li>
+    <li>
+      <h4>Compute a Sharpe for each path</h4>
+      <p>Stitch the out-of-sample returns for each path in time order. Compute a Sharpe on each one. You should end up with a list of Sharpe ratios, not one number. This list is your result for Phase 7.</p>
+      <pre><code>path_sharpes = [sharpe(path_returns[p]) for p in paths]
+print("median:", np.median(path_sharpes), "  5th pct:", np.percentile(path_sharpes, 5))</code></pre>
+    </li>
+    <li>
+      <h4>Probabilistic Sharpe Ratio (PSR)</h4>
+      <p>PSR is the probability that the true Sharpe is above a benchmark <code>sr_star</code>. It adjusts for sample length <code>n</code>, skew <code>g3</code>, and kurtosis <code>g4</code>. Use per-period Sharpe here, not annualised.</p>
+      <pre><code>from scipy.stats import skew, kurtosis
+
+def psr(r: pd.Series, sr_star: float = 0.0) -> float:
+    sr = r.mean() / r.std()                     # per-period Sharpe
+    n = len(r)
+    g3 = skew(r)
+    g4 = kurtosis(r, fisher=False)              # raw kurtosis, not excess
+    denom = np.sqrt(1 - g3 * sr + (g4 - 1) / 4 * sr ** 2)
+    return norm.cdf((sr - sr_star) * np.sqrt(n - 1) / denom)</code></pre>
+      <p>The <code>fisher=False</code> argument matters. SciPy's default is excess kurtosis, and the formula needs the raw value. Using the default quietly gives the wrong answer.</p>
+    </li>
+    <li>
+      <h4>Deflated Sharpe Ratio (DSR)</h4>
+      <p>DSR is PSR with the benchmark raised to the Sharpe you would expect from the best of <code>N</code> pure-luck trials. <code>N</code> comes from <code>trials.csv</code>. The variance of Sharpe estimates across those trials is also needed.</p>
+      <pre><code>EULER_GAMMA = 0.5772156649
+
+def expected_max_sr(sr_var: float, n_trials: int) -> float:
+    return np.sqrt(sr_var) * (
+        (1 - EULER_GAMMA) * norm.ppf(1 - 1 / n_trials)
+        + EULER_GAMMA * norm.ppf(1 - 1 / (n_trials * np.e))
+    )
+
+trials = pd.read_csv("trials.csv")
+sr_star = expected_max_sr(trials["sharpe"].var(), len(trials))
+dsr = psr(best_returns, sr_star=sr_star)</code></pre>
+      <p>Two warnings: the trials' Sharpe values must be per-period too, to match. And <code>trials.csv</code> must include every configuration you actually tried, or the correction is too small.</p>
+    </li>
+    <li>
+      <h4>Probability of Backtest Overfitting (PBO)</h4>
+      <p>PBO uses the same data split many ways to see whether the best in-sample choice tends to stay good out of sample. The procedure, called CSCV:</p>
+      <ol>
+        <li>Split the returns into an even number <code>S</code> of time blocks.</li>
+        <li>For each way of picking half the blocks as in-sample, find the configuration with the best in-sample Sharpe.</li>
+        <li>Find where that configuration ranks out of sample among all configurations.</li>
+        <li>PBO is the fraction of splits where it ranks below the median.</li>
+      </ol>
+      <p>PBO close to 0.5 means your selection process is no better than chance. Lower is better. This takes more code than the others, so write it as its own function with a test on synthetic random returns, where PBO should come out near 0.5.</p>
+    </li>
+  </ol>
+  <div class="box check">
+    <h4>Checkpoint</h4>
+    <ul>
+      <li>You report a distribution of Sharpe ratios (median and a lower percentile), not one figure.</li>
+      <li>PSR and DSR are computed from the same per-period returns, and the DSR is lower than the raw Sharpe would suggest.</li>
+      <li>Your PBO test on random returns comes out near 0.5.</li>
+    </ul>
+  </div>
+  <div class="box pitfall">
+    <h4>Common mistakes</h4>
+    <ul>
+      <li>Reporting the best path's Sharpe. Report the distribution.</li>
+      <li>Leaving out failed or abandoned experiments from <code>trials.csv</code>. That is the most common way DSR is wrong in practice.</li>
+      <li>Mixing annualised and per-period Sharpe values in the same formula.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="pitfalls">
+  <h2>Mistakes that ruin everything</h2>
+  <p>These cause the most damage and are the hardest to notice. Check for each one before you trust a result.</p>
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr><th>#</th><th>Read</th><th>Build</th><th>Done when</th></tr>
-      </thead>
+      <thead><tr><th>Mistake</th><th>What it looks like</th><th>How to prevent it</th></tr></thead>
       <tbody>
-        <tr><td class="num">0</td><td>Ch 1-2 (skim)</td><td>Data loader, repo skeleton, baseline strategies (buy-and-hold, simple momentum), <code>trials.csv</code></td><td>Baseline backtest runs end to end</td></tr>
-        <tr><td class="num">1</td><td>Ch 3</td><td>CUSUM filter, daily volatility, triple-barrier labels, then meta-labeling</td><td>Label counts and class balance look sane; unit tests pass</td></tr>
-        <tr><td class="num">2</td><td>Ch 4</td><td>Concurrency, average uniqueness, sample weights</td><td>Weights verified on a toy example by hand</td></tr>
-        <tr><td class="num">3</td><td>Ch 5</td><td>Fixed-width fracdiff, plus the minimum <code>d</code> that passes ADF</td><td>Features stationary but still correlated with price</td></tr>
-        <tr><td class="num">4</td><td>Ch 7</td><td>PurgedKFold with embargo</td><td>Test shows no label overlap leaking between train and test</td></tr>
-        <tr><td class="num">5</td><td>Ch 6 (skim), Ch 8</td><td>LightGBM baseline, MDI/MDA/SFI</td><td>Importance is stable across folds, not noise</td></tr>
-        <tr><td class="num">6</td><td>Ch 10</td><td>Probability-based sizing, discretization</td><td>Sized strategy compared against fixed-size</td></tr>
-        <tr><td class="num">7</td><td>Ch 11, 12, 14</td><td>CPCV backtest, PSR, DSR, PBO</td><td>A distribution of Sharpe ratios, not one number</td></tr>
+        <tr><td><strong>Look-ahead bias</strong></td><td>Results look too good, especially early in the sample.</td><td>Shift signals before trading. Compute every feature using only data up to that row.</td></tr>
+        <tr><td><strong>Overlapping labels leaking</strong></td><td>Cross-validation scores far above what the model achieves live.</td><td>Use PurgedKFold with <code>t1</code> and an embargo (Phase 4). Keep the leakage test.</td></tr>
+        <tr><td><strong>Survivorship bias</strong></td><td>Backtest only holds companies that survived to today.</td><td>Include delisted tickers and point-in-time index membership from Phase 0.</td></tr>
+        <tr><td><strong>Selection bias</strong></td><td>You kept the best of many configurations.</td><td>Log every trial in <code>trials.csv</code> and report DSR.</td></tr>
+        <tr><td><strong>Silent fallbacks</strong></td><td>A function returns a default when it fails, and you never notice.</td><td>Raise an error or return <code>None</code> explicitly, and handle it. Do not hide failures.</td></tr>
+        <tr><td><strong>Ignoring costs</strong></td><td>Strategy looks profitable but trades heavily.</td><td>Subtract a transaction cost per unit of turnover before reporting results.</td></tr>
       </tbody>
     </table>
   </div>
+</section>
 
+<section id="chapters">
   <h2>Chapter map</h2>
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr><th>Ch</th><th>Topic</th><th>Where it lands</th></tr>
-      </thead>
+      <thead><tr><th>Ch</th><th>Topic</th><th>Where it lands</th></tr></thead>
       <tbody>
         <tr><td>1-2</td><td>Financial ML as a subject; financial data structures (bars)</td><td>Phase 0 (skim)</td></tr>
         <tr><td>3</td><td>Labeling (CUSUM, triple-barrier, meta-labels)</td><td>Phase 1</td></tr>
@@ -220,23 +1059,15 @@
         <tr><td>10</td><td>Bet sizing</td><td>Phase 6</td></tr>
         <tr><td>11</td><td>The dangers of backtesting</td><td>Phase 7</td></tr>
         <tr><td>12</td><td>Backtesting through cross-validation (CPCV)</td><td>Phase 7</td></tr>
-        <tr><td>13</td><td>Backtesting on synthetic data</td><td><span class="tag">Skip</span></td></tr>
+        <tr><td>13</td><td>Backtesting on synthetic data</td><td>Skip</td></tr>
         <tr><td>14</td><td>Backtest statistics (PSR, DSR)</td><td>Phase 7</td></tr>
       </tbody>
     </table>
   </div>
+  <p>Chapter numbers follow the book's standard numbering as recalled. Check them against your copy's table of contents before relying on them.</p>
+</section>
 
-  <h2>Notes and open questions</h2>
-  <p>These are points to settle before or during the build, not blockers.</p>
-  <div class="card">
-    <ol class="notes">
-      <li><strong>Start <code>trials.csv</code> in Phase 0.</strong> The Deflated Sharpe Ratio needs the total number of configurations tried. Retroactive logging is unreliable. Log discarded configs too, not only the winner.</li>
-      <li><strong>Daily bars limit sample size.</strong> CUSUM and triple-barrier on daily data produce few events per year, so expect wide confidence intervals from Phase 5 onward. Decide the universe size and history length early, since they drive this more than any model choice.</li>
-      <li><strong>Survivorship bias.</strong> The Phase 0 loader must include delisted tickers and use point-in-time index membership. Without this, backtests will look better than they are, and the error will be invisible in later phases.</li>
-      <li><strong>Verify chapter numbers against your copy.</strong> The chapter map follows the book's standard numbering as recalled. Check it against your table of contents before relying on it, especially the split of DSR and PBO between Ch 11, 12 and 14.</li>
-    </ol>
-  </div>
-
+</main>
 </div>
 </body>
 </html>
