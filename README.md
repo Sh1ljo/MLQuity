@@ -25,7 +25,28 @@ MLQuity/
 ├── notebooks/          # one per phase, exploration only
 ├── tests/              # unit tests for every src module, plus fake_data.py
 ├── trials.csv          # log of EVERY config tried (needed for DSR)
+├── requirements.txt    # pinned dependencies
 └── README.md
+```
+
+## Setup
+
+Requires Python 3.12 or newer (developed and verified on 3.14).
+
+```
+python -m venv .venv
+.venv\Scripts\activate        # Windows
+source .venv/bin/activate     # macOS/Linux
+pip install -r requirements.txt
+```
+
+Then point your editor at the interpreter at `.venv/Scripts/python.exe` (PyCharm: Settings → Project → Python Interpreter → Add Local Interpreter → Existing; VS Code: Ctrl+Shift+P → "Python: Select Interpreter"). PyCharm usually detects `.venv` in the project root automatically.
+
+To install on a machine without internet, pre-download the packages first:
+
+```
+pip download -r requirements.txt -d wheels\
+pip install --no-index --find-links wheels -r requirements.txt
 ```
 
 ## Phases

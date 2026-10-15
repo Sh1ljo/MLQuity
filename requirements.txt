@@ -1,0 +1,28 @@
+# MLQuity direct dependencies, pinned for reproducible backtests.
+# Verified to resolve on Python 3.14 (Windows). Needs Python >= 3.12.
+#
+# Install into a fresh virtualenv:
+#   python -m venv .venv
+#   .venv\Scripts\activate        (Windows)
+#   source .venv/bin/activate     (macOS/Linux)
+#   pip install -r requirements.txt
+
+# Core scientific stack
+numpy==2.5.4
+pandas==3.0.6
+scipy==1.18.1
+pyarrow==26.0.0          # parquet I/O for data/processed
+
+# Statistics (ADF test for fracdiff, Phase 3)
+statsmodels==0.15.0
+
+# Modeling and feature importance (Phase 5)
+scikit-learn==1.9.1
+lightgbm==4.7.0
+
+# Notebooks and plotting
+matplotlib==3.11.2
+jupyterlab==4.6.4
+
+# Tests
+pytest==9.1.1
