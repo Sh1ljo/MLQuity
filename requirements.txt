@@ -20,6 +20,9 @@ statsmodels==0.15.0
 scikit-learn==1.9.1
 lightgbm==4.7.0
 
+# Data download (download_data.py)
+requests==2.34.2
+
 # Notebooks and plotting
 matplotlib==3.11.2
 jupyterlab==4.6.4

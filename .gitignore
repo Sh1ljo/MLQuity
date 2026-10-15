@@ -17,8 +17,9 @@ data/processed/
 *.csv
 !trials.csv
 
-# Environment
+# Environment / secrets
 .env
+tiingo_key.txt
 
 # OS / editor
 .DS_Store
