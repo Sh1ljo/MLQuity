@@ -12,10 +12,12 @@ __pycache__/
 
 # Data
 data/raw/
-data/processed/
+data/processed/*
+!data/processed/trials/
+data/processed/trials/*
 *.parquet
 *.csv
-!trials.csv
+!data/processed/trials/trials.csv
 
 # Environment / secrets
 .env

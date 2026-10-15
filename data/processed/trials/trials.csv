@@ -1,0 +1,3 @@
+trial_id,config,n_days,total_return,sharpe,returns_file
+1,"strategy=buy_and_hold, ticker=SPY",1695,1.5879050634867975,0.8059631400869058,trial_0001.csv
+4,"strategy=momentum_252d, ticker=SPY",1695,0.8571465814537449,0.8116366218647681,trial_0004.csv

@@ -11,6 +11,7 @@ MLQuity/
 ├── data/
 │   ├── raw/            # raw data, never edited
 │   └── processed/
+│       └── trials/     # trials.csv + each trial's daily returns
 ├── src/
 │   ├── data.py         # loading, point-in-time handling
 │   ├── features.py     # fracdiff + standard features          (Ch 5)
@@ -24,7 +25,6 @@ MLQuity/
 │   └── trials.py       # log_trial(): trials.csv + each trial's returns
 ├── notebooks/          # one per phase, exploration only
 ├── tests/              # unit tests for every src module, plus fake_data.py
-├── trials.csv          # log of EVERY config tried (needed for DSR)
 ├── requirements.txt    # pinned dependencies
 └── README.md
 ```
