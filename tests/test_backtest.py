@@ -53,9 +53,9 @@ def test_positions_shift_one_day_no_lookahead():
     assert returns.loc[idx[2]] == pytest.approx(99.0 / 110.0 - 1)
 
 
-def test_sharpe_zero_std_is_zero():
+def test_sharpe_zero_std_is_nan():
     flat = pd.Series([0.0, 0.0, 0.0])
-    assert backtest.sharpe(flat) == 0.0
+    assert np.isnan(backtest.sharpe(flat))
 
 
 def test_sharpe_of_known_series():

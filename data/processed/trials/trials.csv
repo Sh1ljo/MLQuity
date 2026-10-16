@@ -1,3 +1,7 @@
 trial_id,config,n_days,total_return,sharpe,returns_file
 5,"strategy=buy_and_hold, ticker=SPY, transaction_cost=5",1695,1.5866012380502794,0.8055796209944476,trial_0005.csv
 6,"strategy=momentum_252d, ticker=SPY, transaction_cost=5",1695,0.8431496941093408,0.802027808153333,trial_0006.csv
+7,"strategy=buy_and_hold, ticker=SPY, transaction_cost=0",1695,1.5879050634867977,0.8059631400869058,trial_0007.csv
+8,"strategy=buy_and_hold, ticker=SPY, transaction_cost=5",1695,1.5866012380502794,0.8055796209944476,trial_0008.csv
+11,"strategy=momentum_252d, ticker=SPY, transaction_cost=5",1695,0.8431496941093408,0.802027808153333,trial_0011.csv
+12,"strategy=momentum_252d, ticker=SPY, transaction_cost=10",1695,0.8292513132910497,0.7924028366933201,trial_0012.csv

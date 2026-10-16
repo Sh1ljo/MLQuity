@@ -23,12 +23,14 @@ def run_backtest(positions, prices, cost_bps: float = 0.0) -> pd.Series:
     cost = cost_bps / 10000 * turnover
     return (held * asset_ret - cost).dropna()
 
-# Annualized Sharpe ratio
-def sharpe(returns: pd.Series) -> float:
+# Sharpe ratio over period
+def sharpe(returns: pd.Series, periods: int = 252) -> float:
+    mean = returns.mean()
     std = returns.std()
-    if std == 0:
-        return 0.0
-    return float(returns.mean() / std * np.sqrt(252))
+    if std == 0 or np.isnan(std):
+        return np.nan
+    sr_pp = mean / std
+    return float(sr_pp * np.sqrt(periods))
 
 
 # Headline numbers for one backtest

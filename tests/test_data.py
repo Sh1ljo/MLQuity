@@ -34,8 +34,9 @@ def test_clean_file_loads_sorted_and_unique(raw_dir):
     [("2020-01-02", 100, 1), ("2020-01-03", None, 1)],  # missing close
     [("2020-01-02", 100, 1), ("2020-01-03", 0, 1)],     # zero close
     [("2020-01-02", 100, 1), ("2020-01-03", -5, 1)],    # negative close
+    [("2020-01-02", -5, 1), ("2020-01-03", -6, 1)],     # all negative, no big jump
     [("2020-01-02", 100, 1), ("2020-01-03", 160, 1)],   # 60% one-day jump
-], ids=["duplicate", "missing", "zero", "negative", "jump"])
+], ids=["duplicate", "missing", "zero", "negative", "all_negative", "jump"])
 def test_bad_data_raises(raw_dir, rows):
     write_spy(raw_dir, rows)
     with pytest.raises(ValueError):
